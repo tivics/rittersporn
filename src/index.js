@@ -1,8 +1,8 @@
 require("dotenv").config()
 const {Client} = require("discord.js")
 const client = new Client({intents:["GUILDS", "GUILD_MESSAGES", "GUILD_VOICE_STATES"]})
-const { joinVoiceChannel, createAudioPlayer } = require('@discordjs/voice')
-const play = require('./play')
+const { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus } = require('@discordjs/voice')
+const ytdl  = require('ytdl-core')
 const player = createAudioPlayer()
 
 client.on('messageCreate', async (message) => {
@@ -16,15 +16,30 @@ client.on('messageCreate', async (message) => {
         })
     }
     else if(message.content.slice(0, 6) === '!play ') {
+        
         var url = message.content.slice(6)
+        
         connection = joinVoiceChannel({
             channelId: message.member.voice.channel.id,
             guildId: message.guild.id,
             adapterCreator: message.guild.voiceAdapterCreator,
             selfMute: false,
             selfDeaf: false,
-        })     
-        play.play_youtube(url ,message, connection, player)
+        })      
+
+        const stream = ytdl(url, { quality: 'highestaudio' ,liveBuffer: 40000, dlChunkSize: 0 })
+        const resource = createAudioResource(stream, { inlineVolume: false/*true*/ }) //todo performante Lösung für Lautstärkeregelung
+        //resource.volume.setVolume(0.1);
+
+        player.play(resource)
+     
+        connection.subscribe(player)    
+        setTimeout(() => message.delete(), 10000)
+    
+        player.on(AudioPlayerStatus.Idle, () => {
+            setTimeout(() => connection.disconnect(), 10000)
+        });
+
     }
     else if(message.content === '!stop') {
         player.stop()
