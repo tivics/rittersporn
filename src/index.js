@@ -1,9 +1,10 @@
 require("dotenv").config()
 const {Client} = require("discord.js")
 const client = new Client({intents:["GUILDS", "GUILD_MESSAGES", "GUILD_VOICE_STATES"]})
-const { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus } = require('@discordjs/voice')
+const { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus, VoiceConnection } = require('@discordjs/voice')
 const ytdl  = require('ytdl-core')
-const player = createAudioPlayer()
+var player = createAudioPlayer()
+var rss = require('./news.js')
 
 client.on('messageCreate', async (message) => {
     if(message.content === '!join') {
@@ -46,4 +47,15 @@ client.on('messageCreate', async (message) => {
         setTimeout(() => message.delete(), 10000)    
     }
 })
+
+client.on('ready', async client => {
+
+setInterval(function(){rss.read_rss(client)}, 5000);
+
+//news channel
+//var news_channel = client.channels.cache.find(channel => channel.id === `961721436546949140`)
+//hunt channel
+//var hunt_channel = client.channels.cache.find(channel => channel.id === `961721387754606682`)
+})
+
 client.login(process.env.DISCORD_BOT_TOKEN)
