@@ -43,12 +43,12 @@ module.exports = {
           if(date >= last_pubDate && last_title != item.title){
             last_pubDate = date
             last_title = item.title
+            //update db und nachricht in channel posten
             let stmt = db.prepare('UPDATE NEWS SET PUB_DATE = ?, TITLE = ? WHERE PROVIDER = ?;') 
             let updates = stmt.run(String(last_pubDate), String(last_title), 'GAMESTAR')
             channel.send(item.title + '\n' + item.contentSnippet + '\n' + item.link)
             //console.log(item.title + '\n' + item.contentSnippet + '\n' + item.link)
           } 
         })
-        console.log(last_pubDate)
     } 
 }
