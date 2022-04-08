@@ -46,7 +46,7 @@ client.on('messageCreate', async (message) => {
             console.error(`Error: ${error.message}`);
             setTimeout(() => connection.disconnect(), 10000)
             if(news_handler === 0){
-                news_handler = setInterval(function(){rss.read_rss(client)}, 1000)
+                news_handler = setInterval(function(){rss.read_rss(client)}, 60000)
             }
         })
         //wenn fertig channel verlassen
@@ -54,7 +54,7 @@ client.on('messageCreate', async (message) => {
             setTimeout(() => connection.disconnect(), 10000)
             console.log(news_handler)
             if(news_handler === 0){
-                news_handler = setInterval(function(){rss.read_rss(client)}, 1000)
+                news_handler = setInterval(function(){rss.read_rss(client)}, 60000)
             }
         })
     }
@@ -66,7 +66,7 @@ client.on('messageCreate', async (message) => {
 
 client.on('ready', async client => {
 
-news_handler = setInterval(function(){rss.read_rss(client)}, 1000)
+news_handler = setInterval(function(){rss.read_rss(client)}, 60000)
  
 //news channel
 //var news_channel = client.channels.cache.find(channel => channel.id === `961721436546949140`)
