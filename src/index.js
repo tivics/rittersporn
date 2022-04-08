@@ -52,7 +52,6 @@ client.on('messageCreate', async (message) => {
         //wenn fertig channel verlassen
         player.on(AudioPlayerStatus.Idle, () => {
             setTimeout(() => connection.disconnect(), 10000)
-            console.log(news_handler)
             if(news_handler === 0){
                 news_handler = setInterval(function(){rss.read_rss(client)}, 60000)
             }
