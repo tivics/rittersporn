@@ -1,10 +1,11 @@
 require("dotenv").config()
 const {Client} = require("discord.js")
 const client = new Client({intents:["GUILDS", "GUILD_MESSAGES", "GUILD_VOICE_STATES"]})
-const { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus, VoiceConnection } = require('@discordjs/voice')
+const { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus } = require('@discordjs/voice')
 const ytdl  = require('ytdl-core')
 var player = createAudioPlayer()
 var rss = require('./news.js')
+var news_handler
 
 client.on('messageCreate', async (message) => {
     if(message.content === '!join') {
@@ -30,22 +31,32 @@ client.on('messageCreate', async (message) => {
 
         const stream = ytdl(url, { quality: 'highestaudio' ,liveBuffer: 40000, dlChunkSize: 0 })
         const resource = createAudioResource(stream, { inlineVolume: false/*true*/ }) //todo performante Lösung für Lautstärkeregelung
-        //resource.volume.setVolume(0.1);
+        //resource.volume.setVolume(0.1)
 
         player.play(resource)
      
         connection.subscribe(player)    
         setTimeout(() => message.delete(), 10000)
         
-        player.on('error', error => {
-            console.error(`Error: ${error.message} with resource ${error.resource.metadata.title}`);
-            setTimeout(() => connection.disconnect(), 10000)
-        });
+        clearInterval(news_handler)
+        news_handler = 0
 
+        //error handler, nachricht ausgeben und channel verlassen
+        player.on('error', error => {
+            console.error(`Error: ${error.message}`);
+            setTimeout(() => connection.disconnect(), 10000)
+            if(news_handler === 0){
+                news_handler = setInterval(function(){rss.read_rss(client)}, 1000)
+            }
+        })
+        //wenn fertig channel verlassen
         player.on(AudioPlayerStatus.Idle, () => {
             setTimeout(() => connection.disconnect(), 10000)
-        });
-
+            console.log(news_handler)
+            if(news_handler === 0){
+                news_handler = setInterval(function(){rss.read_rss(client)}, 1000)
+            }
+        })
     }
     else if(message.content === '!stop') {
         player.stop()
@@ -55,8 +66,8 @@ client.on('messageCreate', async (message) => {
 
 client.on('ready', async client => {
 
-setInterval(function(){rss.read_rss(client)}, 60000);
-
+news_handler = setInterval(function(){rss.read_rss(client)}, 1000)
+ 
 //news channel
 //var news_channel = client.channels.cache.find(channel => channel.id === `961721436546949140`)
 //hunt channel
