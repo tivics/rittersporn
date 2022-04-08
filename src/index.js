@@ -36,7 +36,12 @@ client.on('messageCreate', async (message) => {
      
         connection.subscribe(player)    
         setTimeout(() => message.delete(), 10000)
-    
+        
+        player.on('error', error => {
+            console.error(`Error: ${error.message} with resource ${error.resource.metadata.title}`);
+            setTimeout(() => connection.disconnect(), 10000)
+        });
+
         player.on(AudioPlayerStatus.Idle, () => {
             setTimeout(() => connection.disconnect(), 10000)
         });
