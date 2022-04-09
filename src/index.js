@@ -29,7 +29,7 @@ client.on('messageCreate', async (message) => {
             selfDeaf: false,
         })      
 
-        const stream = await ytdl(url, { filter: 'audioonly', quality: 'highestaudio' ,liveBuffer: 40000 }) //dlChunkSize: 0
+        const stream = ytdl(url, { filter: 'audioonly', quality: 'highestaudio', highWaterMark: 1024 * 1024 * 10 ,liveBuffer: 4000 }) // Buffergröße 10MB für Videos und 4 anstatt 2 Sekunden für Live Streams
         const resource = createAudioResource(stream, { inlineVolume: false/*true*/ }) //todo performante Lösung für Lautstärkeregelung
         //resource.volume.setVolume(0.1)
 
