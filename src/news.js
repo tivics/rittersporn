@@ -32,11 +32,17 @@ module.exports = {
         $provider: 'GAMESTAR',
         $id: 1
       },
-      (error, rows) => {rows.forEach((row) => {
-        last_pubDate = new Date(row.PUB_DATE)
-        last_title = row.TITLE
-      })
-    })
+      (error, rows) => {
+        if(error){
+          console.log(error)
+        }
+        else{
+        rows.forEach((row) => {
+          last_pubDate = new Date(row.PUB_DATE)
+          last_title = row.TITLE
+        })}
+      }
+    )
 
     let feed = await parser.parseURL('https://www.gamestar.de/news/rss/news.rss')
 
@@ -75,10 +81,16 @@ module.exports = {
       $userID: userID.data.id,
       $id: 1
       },
-      (error, rows) => {rows.forEach((row) => {
-        last_tweet = row.TWEET_ID
-      })
-    })
+      (error, rows) => {
+        if(error){
+          console.log(error)
+        }
+        else{
+          rows.forEach((row) => {
+            last_tweet = row.TWEET_ID
+        })}
+      }
+    )
 
     twitterClient.v2.userTimeline(String(userID.data.id), { exclude: 'replies'} ).then ((response) => {
       response.tweets.forEach(tweet => {
