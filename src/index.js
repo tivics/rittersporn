@@ -6,6 +6,7 @@ const ytdl  = require('ytdl-core')
 var player = createAudioPlayer()
 var news = require('./news.js')
 var news_handler
+var twitter_handler
 
 client.on('messageCreate', async (message) => {
     if(message.content === '!join') {
@@ -39,21 +40,25 @@ client.on('messageCreate', async (message) => {
         setTimeout(() => message.delete(), 10000)
         
         clearInterval(news_handler)
+        clearInterval(twitter_handler)
         news_handler = 0
+        twitter_handler = 0
 
         //error handler, nachricht ausgeben und channel verlassen
         player.on('error', error => {
             console.error(`Error: ${error.message}`);
             setTimeout(() => connection.disconnect(), 10000)
-            if(news_handler === 0){
+            if(news_handler === 0 && twitter_handler === 0){
                 news_handler = setInterval(function(){news.read_rss(client)}, 60000)
+                twitter_handler = setInterval(function(){news.read_twitter(client)}, 60000)
             }
         })
         //wenn fertig channel verlassen
         player.on(AudioPlayerStatus.Idle, () => {
             setTimeout(() => connection.disconnect(), 10000)
-            if(news_handler === 0){
+            if(news_handler === 0 && twitter_handler === 0){
                 news_handler = setInterval(function(){news.read_rss(client)}, 60000)
+                twitter_handler = setInterval(function(){news.read_twitter(client)}, 60000)
             }
         })
     }
@@ -67,7 +72,7 @@ client.on('ready', async client => {
 
 news_handler = setInterval(function(){news.read_rss(client)}, 60000)
 
-news.read_twitter(client)
+twitter_handler = setInterval(function(){news.read_twitter(client)}, 60000)
 
 //news channel
 //var news_channel = client.channels.cache.find(channel => channel.id === `961721436546949140`)
