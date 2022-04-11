@@ -4,7 +4,7 @@ const client = new Client({intents:["GUILDS", "GUILD_MESSAGES", "GUILD_VOICE_STA
 const { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus } = require('@discordjs/voice')
 const ytdl  = require('ytdl-core')
 var player = createAudioPlayer()
-var rss = require('./news.js')
+var news = require('./news.js')
 var news_handler
 
 client.on('messageCreate', async (message) => {
@@ -46,14 +46,14 @@ client.on('messageCreate', async (message) => {
             console.error(`Error: ${error.message}`);
             setTimeout(() => connection.disconnect(), 10000)
             if(news_handler === 0){
-                news_handler = setInterval(function(){rss.read_rss(client)}, 60000)
+                news_handler = setInterval(function(){news.read_rss(client)}, 60000)
             }
         })
         //wenn fertig channel verlassen
         player.on(AudioPlayerStatus.Idle, () => {
             setTimeout(() => connection.disconnect(), 10000)
             if(news_handler === 0){
-                news_handler = setInterval(function(){rss.read_rss(client)}, 60000)
+                news_handler = setInterval(function(){news.read_rss(client)}, 60000)
             }
         })
     }
@@ -65,8 +65,10 @@ client.on('messageCreate', async (message) => {
 
 client.on('ready', async client => {
 
-news_handler = setInterval(function(){rss.read_rss(client)}, 60000)
- 
+news_handler = setInterval(function(){news.read_rss(client)}, 60000)
+
+news.read_twitter(client)
+
 //news channel
 //var news_channel = client.channels.cache.find(channel => channel.id === `961721436546949140`)
 //hunt channel
