@@ -81,3 +81,8 @@ twitter_handler = setInterval(function(){news.read_twitter(client)}, 60000)
 })
 
 client.login(process.env.DISCORD_BOT_TOKEN)
+
+//jede noch nicht abgefangene exception in der console ausgeben; Zwischenlösung da Twitter API immer wieder auf Fehler läuft 
+process.on('uncaughtException', err => {
+    console.error(err && err.stack)
+});
