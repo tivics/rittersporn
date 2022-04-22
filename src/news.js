@@ -9,10 +9,9 @@ const twitterClient = new TwitterApi(process.env.TWITTER_BEARER_TOKEN)
 module.exports = {
   read_rss: async function (client) {  
     //games-news channel
-    const channel = client.channels.cache.find(channel => channel.id === `961721436546949140`)
-  
-    var last_pubDate = new Date('1000-01-01T00:00:00.000Z')
-    var last_title
+    const channel = client.channels.cache.find(channel => channel.id === `967033963149418616`)
+    var db_result
+
     //clear record
     //db.run("DELETE FROM NEWS WHERE ID = 1;")
     //initial record
@@ -25,41 +24,52 @@ module.exports = {
     TITLE		  TEXT	  NOT NULL,
     PROVIDER		  TEXT	  NOT NULL
     );
-
     */
 
-    db.all("SELECT ID,PUB_DATE,TITLE,PROVIDER FROM NEWS where PROVIDER=$provider AND ID=$id" , {
-        $provider: 'GAMESTAR',
-        $id: 1
-      },
-      (error, rows) => {
-        if(error){
-          console.log(error)
-        }
-        else{
-        rows.forEach((row) => {
-          last_pubDate = new Date(row.PUB_DATE)
-          last_title = row.TITLE
-        })}
+    /*
+        //DB Update
+        //let stmt = db.prepare('UPDATE NEWS SET PUB_DATE = ?, TITLE = ? WHERE PROVIDER = ?;') 
+        //let updates = stmt.run(String(last_pubDate), String(last_title), 'GAMESTAR')
+
+        //Ausgabe Check
+        //console.log(item.title + '\n' + item.contentSnippet + '\n' + item.link)
+*/
+
+    db.all("SELECT ID,PUB_DATE,TITLE,PROVIDER FROM NEWS where PROVIDER=$provider" , {
+      $provider: 'GAMESTAR',
+    },
+    (error, rows) => {
+      if(error){
+        console.log(error)
       }
+      else{
+        db_result = rows
+      }
+    }
     )
 
     let feed = await parser.parseURL('https://www.gamestar.de/news/rss/news.rss')
 
     feed.items.forEach(item => {
-      date = new Date(item.pubDate)    
-        //funktioniert da RSS TOP -> DOWN aufgebaut ist, ansonsten würde beim init alles gepostet werden
-        if(date >= last_pubDate && last_title != item.title){
-          last_pubDate = date
-          last_title = item.title
-          //update db und nachricht in channel posten
-          let stmt = db.prepare('UPDATE NEWS SET PUB_DATE = ?, TITLE = ? WHERE PROVIDER = ?;') 
-          let updates = stmt.run(String(last_pubDate), String(last_title), 'GAMESTAR')
-          channel.send(item.title + '\n' + item.contentSnippet + '\n' + item.link)
-          //console.log(item.title + '\n' + item.contentSnippet + '\n' + item.link)
-        } 
-    })
-  }, 
+          date = new Date(item.pubDate)         
+
+   
+          let check = db_result.every(row => {
+            return !(row.TITLE === item.title)
+          })
+
+          if(check != false){
+            //insert db und nachricht in channel posten
+            db.run('INSERT INTO NEWS(ID,PUB_DATE,TITLE,PROVIDER) VALUES((SELECT MAX( ID ) FROM NEWS) +1, ?, ? ,?)', [String(date), String(item.title), 'GAMESTAR'], (err) => {
+              if(err) {
+                return console.log(err.message)
+              }
+              //... todo console Ausgabe neuer Datensatz
+            })
+            channel.send(item.title + '\n' + item.contentSnippet + '\n' + item.link)
+          }
+      })
+    }, 
   read_twitter: async function (client) {
   /*
     CREATE TABLE TWEETS(
