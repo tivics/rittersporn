@@ -17,7 +17,7 @@ module.exports = {
     //initial record
     //db.run("INSERT INTO NEWS (ID,PUB_DATE,TITLE,PROVIDER) VALUES (1,'1000-01-01T00:00:00.000Z','INIT','GAMESTAR')")
     /*
-
+    
     CREATE TABLE NEWS(
     ID INT PRIMARY KEY     NOT NULL,
     PUB_DATE       TEXT    NOT NULL,
@@ -47,13 +47,12 @@ module.exports = {
       }
     }
     )
-
+    //fetch and parse rss data
     let feed = await parser.parseURL('https://www.gamestar.de/news/rss/news.rss')
 
     feed.items.forEach(item => {
           date = new Date(item.pubDate)         
 
-   
           let check = db_result.every(row => {
             return !(row.TITLE === item.title)
           })
