@@ -139,18 +139,18 @@ sqlite3 yourdatabasename.db
 Create RSS Table:
 ```sh
     CREATE TABLE NEWS(
-      ID INT PRIMARY    KEY       NOT NULL,
-      PUB_DATE          TEXT      NOT NULL,
-      TITLE		        TEXT	  NOT NULL,
-      PROVIDER		    TEXT	  NOT NULL
+      ID INT PRIMARY  KEY NOT NULL,
+      PUB_DATE  TEXT  NOT NULL,
+      TITLE TEXT  NOT NULL,
+      PROVIDER  TEXT  NOT NULL
     );
 ```
 Create Twitter Table:
 ```sh
     CREATE TABLE TWEETS(
-      ID INT PRIMARY      KEY     NOT NULL,
-      TWEET_ID            TEXT    NOT NULL,
-      USER_ID		      TEXT	  NOT NULL
+      ID INT PRIMARY  KEY NOT NULL,
+      TWEET_ID  TEXT  NOT NULL,
+      USER_ID TEXT  NOT NULL
     );
 ```
 <p align="right">(<a href="#top">back to top</a>)</p>
