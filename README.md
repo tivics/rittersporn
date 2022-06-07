@@ -127,8 +127,32 @@ First install latest version of NPM
    npm i sqlite3
    npm i twitter-api-v2
    ```
+9.  Download [SQLite Precompiled Binaries for Windows](https://www.sqlite.org/download.html) and unzip it to your chosen destination
+10. Go to Control Panel > System > Advanced System Settings > Environment Variables · Double click the "Path" item from User variables and add the path to SQLite e.g. C:\Program Files\SQLite
+11. SQLite Database Setup
+Open Windows command line and navigate to your project path
 
-
+Create Database:
+```sh
+sqlite3 yourdatabasename.db
+```
+Create RSS Table:
+```sh
+    CREATE TABLE NEWS(
+      ID INT PRIMARY    KEY       NOT NULL,
+      PUB_DATE          TEXT      NOT NULL,
+      TITLE		        TEXT	  NOT NULL,
+      PROVIDER		    TEXT	  NOT NULL
+    );
+```
+Create Twitter Table:
+```sh
+    CREATE TABLE TWEETS(
+      ID INT PRIMARY      KEY     NOT NULL,
+      TWEET_ID            TEXT    NOT NULL,
+      USER_ID		      TEXT	  NOT NULL
+    );
+```
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
