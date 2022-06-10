@@ -49,6 +49,7 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
+    <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -158,6 +159,18 @@ Create Twitter Table:
       USER_ID TEXT  NOT NULL
     );
 ```
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+
+
+<!-- Usage -->
+## Usage
+
+Tell Rittersporn what to do by typing commands into a text channel of your choice.
+
+* join a voice channel and type in ``` !play YOUTUBE_URL``` to start playing music in the voice channel you are currently in
+* type in ``` !stop ``` to stop the playback
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 

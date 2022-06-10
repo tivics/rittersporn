@@ -63,7 +63,7 @@ module.exports = {
     }, 
   read_twitter: async function (client) {
 
-  //twitter-news channel
+    //twitter-news channel
     const channel = client.channels.cache.find(channel => channel.id === process.env.CHANNEL_TWITTER)
 
     const userID = await twitterClient.v2.userByUsername(process.env.TWITTER_USER)  

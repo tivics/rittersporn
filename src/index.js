@@ -70,14 +70,14 @@ client.on('messageCreate', async (message) => {
 
 client.on('ready', async client => {
 
-news_handler = setInterval(function(){news.read_rss(client)}, 60000)
+    news_handler = setInterval(function(){news.read_rss(client)}, 60000)
 
-twitter_handler = setInterval(function(){news.read_twitter(client)}, 60000)
+    twitter_handler = setInterval(function(){news.read_twitter(client)}, 60000)
 
-//gaming-news channel
-//var news_channel = client.channels.cache.find(channel => channel.id === `961721436546949140`)
-//Hunt-News Channel
-//var hunt_channel = client.channels.cache.find(channel => channel.id === `961721387754606682`)
+    //gaming-news channel
+    //var news_channel = client.channels.cache.find(channel => channel.id === `961721436546949140`)
+    //Hunt-News Channel
+    //var hunt_channel = client.channels.cache.find(channel => channel.id === `961721387754606682`)
 })
 
 client.login(process.env.DISCORD_BOT_TOKEN)
