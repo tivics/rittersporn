@@ -87,9 +87,9 @@ module.exports = {
       }
     )
 
-    twitterClient.v2.userTimeline(String(userID.data.id), { exclude: 'replies'} ).then ((response) => {
+    twitterClient.v2.userTimeline(String(userID.data.id), { exclude: 'replies' } ).then ((response) => {
       response.tweets.forEach(tweet => {
-        if(tweet.id === response.meta.newest_id && tweet.id != last_tweet){
+        if(tweet.id === response.meta.newest_id && tweet.id != last_tweet && tweet.author_id === userID){
           //update db and post message to channel
           let stmt = db.prepare('UPDATE TWEETS SET TWEET_ID = ? WHERE USER_ID = ?;') 
           let updates = stmt.run(String(tweet.id), String(userID.data.id))
