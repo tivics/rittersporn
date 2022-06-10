@@ -63,10 +63,10 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://github.com/tivics/rittersporn/)
 
-The Discord Bot is able to play music from Youtube video sources. 
-At the current state it is able to post RSS feed from Gamestar and Twitter posts from @HuntShowdown
-
-<b>With version 1.0 the Bot will be costomizable in terms of RSS feeds and Twitter feeds.</b>
+Rittersporn is social media Discord Bot that currently offers the following features:
+* play music from a Youtube video/ audio source
+* post a RSS feed from a selected source
+* post tweets from a selected user
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -109,11 +109,16 @@ First install latest version of NPM
    ```sh 
    npm install dotenv --save-dev
    ```
+8. `.env` Setup:
    ```js
    "DISCORD_BOT_TOKEN=YOUR TOKEN THAT YOU CREATED IN STEP 3"
    "TWITTER_BEARER_TOKEN=YOUR TOKEN THAT YOU CREATED IN STEP 5"
+   "RSS_FEED=URL OF RSS FEED YOU WANT TO FOLLOW"
+   "CHANNEL_RSS=CHANNEL IN WHICH RSS NEWS SHOULD BE POSTED"
+   "TWITTER_USER=TWITTER USER YOU WANT TO FOLLOW"
+   "CHANNEL_TWITTER=CHANNEL IN WHICH TWEETS SHOULD BE POSTED"
    ```
-8. Install NPM packages
+9. Install NPM packages
    ```sh
    npm install discord.js
    npm i @discordjs/voice
@@ -127,9 +132,9 @@ First install latest version of NPM
    npm i sqlite3
    npm i twitter-api-v2
    ```
-9.  Download [SQLite Precompiled Binaries for Windows](https://www.sqlite.org/download.html) and unzip it to your chosen destination
-10. Go to Control Panel > System > Advanced System Settings > Environment Variables · Double click the "Path" item from User variables and add the path to SQLite e.g. C:\Program Files\SQLite
-11. SQLite Database Setup
+10.  Download [SQLite Precompiled Binaries for Windows](https://www.sqlite.org/download.html) and unzip it to your chosen destination
+11. Go to Control Panel > System > Advanced System Settings > Environment Variables · Double click the "Path" item from User variables and add the path to SQLite e.g. C:\Program Files\SQLite
+12. SQLite Database Setup
 Open Windows command line and navigate to your project path
 
 Create Database:

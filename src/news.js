@@ -1,16 +1,16 @@
 const Parser = require('rss-parser')
-var parser = new Parser()
 const sqlite3 = require('sqlite3');
-var db = new sqlite3.Database('./news.db');
 const { TwitterApi } = require('twitter-api-v2');
 const twitterClient = new TwitterApi(process.env.TWITTER_BEARER_TOKEN)
 
+var parser = new Parser()
+var db = new sqlite3.Database('./news.db');
 
 module.exports = {
   read_rss: async function (client) {  
     
-    //Gaming-News channel
-    const channel = client.channels.cache.find(channel => channel.id === `967033963149418616`)
+    //gaming-news channel
+    const channel = client.channels.cache.find(channel => channel.id === process.env.CHANNEL_RSS)
     var db_result
 
     //clear record
@@ -18,12 +18,12 @@ module.exports = {
     //initial record
     //db.run("INSERT INTO NEWS (ID,PUB_DATE,TITLE,PROVIDER) VALUES (1,'1000-01-01T00:00:00.000Z','INIT','GAMESTAR')")
 
-    /* Erster Versuch nur 1 Eintrag in Tabelle um Größe über Zeit gering zu halten, Problem mit dem Update wenn zur selben Zeit mehr Nachrichten gepostet werden
-        //DB Update
+    /* first draft with only 1 record to keep db size small in future --> caused issue with multiple message at the same time
+        //db update
         //let stmt = db.prepare('UPDATE NEWS SET PUB_DATE = ?, TITLE = ? WHERE PROVIDER = ?;') 
         //let updates = stmt.run(String(last_pubDate), String(last_title), 'GAMESTAR')
 
-        //Ausgabe Check
+        //output check
         //console.log(item.title + '\n' + item.contentSnippet + '\n' + item.link)
     */
 
@@ -39,9 +39,9 @@ module.exports = {
       }
     }
     )
-    //RSS Daten abfragen und umwandeln
-    let feed = await parser.parseURL('https://www.gamestar.de/news/rss/news.rss')
-    //Loop durch die Ergebnisse
+    //request and parse RSS feed 
+    let feed = await parser.parseURL(process.env.RSS_FEED)
+    //loop through results
     feed.items.forEach(item => {
           date = new Date(item.pubDate)         
 
@@ -50,12 +50,12 @@ module.exports = {
           })
 
           if(check != false){
-            //neuer Eintrag in DB und Nachricht in Channel posten
+            //new db entry and post message
             db.run('INSERT INTO NEWS(ID,PUB_DATE,TITLE,PROVIDER) VALUES((SELECT MAX( ID ) FROM NEWS) +1, ?, ? ,?)', [String(date), String(item.title), 'GAMESTAR'], (err) => {
               if(err) {
                 return console.log(err.message)
               }
-              //... TODO Konsolen Ausgabe neuer Datensatz
+              //... TODO console output new db entry
             })
             channel.send(item.title + '\n' + item.contentSnippet + '\n' + item.link)
           }
@@ -63,10 +63,10 @@ module.exports = {
     }, 
   read_twitter: async function (client) {
 
-  //Hunt-News channel
-    const channel = client.channels.cache.find(channel => channel.id === `961721387754606682`)
+  //twitter-news channel
+    const channel = client.channels.cache.find(channel => channel.id === process.env.CHANNEL_TWITTER)
 
-    const userID = await twitterClient.v2.userByUsername('HuntShowdown')  
+    const userID = await twitterClient.v2.userByUsername(process.env.TWITTER_USER)  
     var last_tweet
     
     //initial record
@@ -90,7 +90,7 @@ module.exports = {
     twitterClient.v2.userTimeline(String(userID.data.id), { exclude: 'replies'} ).then ((response) => {
       response.tweets.forEach(tweet => {
         if(tweet.id === response.meta.newest_id && tweet.id != last_tweet){
-          //update DB und Nachricht in Channel posten
+          //update db and post message to channel
           let stmt = db.prepare('UPDATE TWEETS SET TWEET_ID = ? WHERE USER_ID = ?;') 
           let updates = stmt.run(String(tweet.id), String(userID.data.id))
           channel.send(tweet.text)
