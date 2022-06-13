@@ -4,11 +4,11 @@ const { TwitterApi } = require('twitter-api-v2');
 const twitterClient = new TwitterApi(process.env.TWITTER_BEARER_TOKEN)
 
 var parser = new Parser()
-var db = new sqlite3.Database('./news.db');
+var db = new sqlite3.Database(process.env.DATABASE_PATH);
 
 module.exports = {
   init: async function(){
-    db.run("INSERT INTO NEWS (ID,PUB_DATE,TITLE,PROVIDER) VALUES (1,'1000-01-01T00:00:00.000Z','INIT','GAMESTAR')")
+    db.run("INSERT INTO NEWS (ID,PUB_DATE,TITLE,PROVIDER) VALUES (1,'1000-01-01T00:00:00.000Z','INIT'," + process.env.PROVIDER_RSS +")")
     let twitter_userID = await twitterClient.v2.userByUsername(process.env.TWITTER_USER)
     db.run("INSERT INTO TWEETS (ID,TWEET_ID,USER_ID) VALUES (1,'0000'," + twitter_userID.data.id + ")")
   },
@@ -18,7 +18,7 @@ module.exports = {
     var db_result
     //buffer news db
     db.all("SELECT ID,PUB_DATE,TITLE,PROVIDER FROM NEWS where PROVIDER=$provider" , {
-      $provider: 'GAMESTAR',
+      $provider: process.env.PROVIDER_RSS,
     },
     (error, rows) => {
       if(error){

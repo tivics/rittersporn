@@ -79,4 +79,4 @@ client.login(process.env.DISCORD_BOT_TOKEN)
 //catch every not handled exception
 process.on('uncaughtException', err => {
     console.error(err && err.stack)
-});
+})

@@ -110,16 +110,7 @@ First install latest version of NPM
    ```sh 
    npm install dotenv --save-dev
    ```
-8. `.env` Setup:
-   ```js
-   "DISCORD_BOT_TOKEN=YOUR TOKEN THAT YOU CREATED IN STEP 3"
-   "TWITTER_BEARER_TOKEN=YOUR TOKEN THAT YOU CREATED IN STEP 5"
-   "RSS_FEED=URL OF RSS FEED YOU WANT TO FOLLOW"
-   "CHANNEL_RSS=CHANNEL IN WHICH RSS NEWS SHOULD BE POSTED"
-   "TWITTER_USER=TWITTER USER YOU WANT TO FOLLOW"
-   "CHANNEL_TWITTER=CHANNEL IN WHICH TWEETS SHOULD BE POSTED"
-   ```
-9. Install NPM packages
+8. Install NPM packages
    ```sh
    npm install discord.js
    npm i @discordjs/voice
@@ -133,9 +124,9 @@ First install latest version of NPM
    npm i sqlite3
    npm i twitter-api-v2
    ```
-10.  Download [SQLite Precompiled Binaries for Windows](https://www.sqlite.org/download.html) and unzip it to your chosen destination
-11. Go to Control Panel > System > Advanced System Settings > Environment Variables · Double click the "Path" item from User variables and add the path to SQLite e.g. C:\Program Files\SQLite
-12. SQLite Database Setup
+9.  Download [SQLite Precompiled Binaries for Windows](https://www.sqlite.org/download.html) and unzip it to your chosen destination
+10. Go to Control Panel > System > Advanced System Settings > Environment Variables · Double click the "Path" item from User variables and add the path to SQLite e.g. C:\Program Files\SQLite
+11. SQLite Database Setup
 Open Windows command line and navigate to your project path
 
 Create Database:
@@ -159,6 +150,17 @@ Create Twitter Table:
       USER_ID TEXT  NOT NULL
     );
 ```
+12. `.env` Setup:
+   ```js
+   "DISCORD_BOT_TOKEN=YOUR TOKEN THAT YOU CREATED IN STEP 3"
+   "TWITTER_BEARER_TOKEN=YOUR TOKEN THAT YOU CREATED IN STEP 5"
+   "RSS_FEED=URL OF RSS FEED YOU WANT TO FOLLOW"
+   "CHANNEL_RSS=CHANNEL IN WHICH RSS NEWS SHOULD BE POSTED"
+   "PROVIDER_RSS=YOUR RSS PROVIDER E.G. GAMESTAR, REQUIRED FOR DB"
+   "TWITTER_USER=TWITTER USER YOU WANT TO FOLLOW"
+   "CHANNEL_TWITTER=CHANNEL IN WHICH TWEETS SHOULD BE POSTED"
+   "DATABASE_PATH=SQLITE DB PATH"
+   ```
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
