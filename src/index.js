@@ -93,29 +93,29 @@ async function playMusic(guildID, channelID, url, ytSearch){
   player.play(resource)
   connection.subscribe(player)
 
-//        //pause news/twitter handler while playing audio stream
-//        clearInterval(news_handler)
-//        clearInterval(twitter_handler)
-//        news_handler = 0
-//        twitter_handler = 0
-//        
-        //error handler, post message, leave channel and reset news/twitter handler interval
-        player.on('error', error => {
-            console.error(`Error: ${error.message}`)
-            setTimeout(() => connection.disconnect(), 10000)
-//            if(news_handler === 0 && twitter_handler === 0){
-//                news_handler = setInterval(function(){news.read_rss(client)}, 60000)
-//                twitter_handler = setInterval(function(){news.read_twitter(client)}, 900000)
-//            }
-        })
-        //leave channel once done and reset news/twitter handler interval
-        player.on(AudioPlayerStatus.Idle, () => {
-            setTimeout(() => connection.disconnect(), 10000)
-//            if(news_handler === 0 && twitter_handler === 0){
-//                news_handler = setInterval(function(){news.read_rss(client)}, 60000)
-//                twitter_handler = setInterval(function(){news.read_twitter(client)}, 900000)
-//            }
-        })
+  //pause news/twitter handler while playing audio stream
+  clearInterval(news_handler)
+  clearInterval(twitter_handler)
+  news_handler = 0
+  twitter_handler = 0
+  
+  //error handler, post message, leave channel and reset news/twitter handler interval
+  player.on('error', error => {
+      console.error(`Error: ${error.message}`)
+      setTimeout(() => connection.disconnect(), 10000)
+      if(news_handler === 0 && twitter_handler === 0){
+          news_handler = setInterval(function(){news.read_rss(client)}, 60000)
+          twitter_handler = setInterval(function(){news.read_twitter(client)}, 900000)
+      }
+  })
+  //leave channel once done and reset news/twitter handler interval
+  player.on(AudioPlayerStatus.Idle, () => {
+      setTimeout(() => connection.disconnect(), 10000)
+      if(news_handler === 0 && twitter_handler === 0){
+          news_handler = setInterval(function(){news.read_rss(client)}, 60000)
+          twitter_handler = setInterval(function(){news.read_twitter(client)}, 900000)
+      }
+  })
 }
 
 //submit discord channels
@@ -155,28 +155,28 @@ client.on('messageCreate', async (message) => {
     }
 })
 
-//client.on('ready', async client => {
-//    //refresh rss feed every minute
-//    news_handler = setInterval(function(){news.read_rss(client)}, 60000)
-//    //refres twitter feed every 15 minutes
-//    twitter_handler = setInterval(function(){news.read_twitter(client)}, 900000)
-///*
-//    //store spotify access token
-//    await axios({
-//        method: 'get',
-//        url: 'http://localhost:8888/access_token',
-//        responseType: 'text'
-//         }).then(function (res) {
-//            //console.log(res.data)
-//            let newItem = {
-//                access_token: res.data,
-//            }
-//            tokens.push(newItem)
-//    })
-//*/
-//})
-//
-////catch every not handled exception
-//process.on('uncaughtException', err => {
-//    console.error(err && err.stack)
-//})
+client.on('ready', async client => {
+//refresh rss feed every minute
+news_handler = setInterval(function(){news.read_rss(client)}, 60000)
+//refres twitter feed every 15 minutes
+twitter_handler = setInterval(function(){news.read_twitter(client)}, 900000)
+/*
+    //store spotify access token
+    await axios({
+        method: 'get',
+        url: 'http://localhost:8888/access_token',
+        responseType: 'text'
+         }).then(function (res) {
+            //console.log(res.data)
+            let newItem = {
+                access_token: res.data,
+            }
+            tokens.push(newItem)
+    })
+*/
+})
+
+//catch every not handled exception
+process.on('uncaughtException', err => {
+    console.error(err && err.stack)
+})
