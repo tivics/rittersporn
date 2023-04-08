@@ -39,8 +39,11 @@ app.get('/play', async function(req, res) {
   if(player.state.status != 'playing'){
     await playMusic(guildID, channelID, url, '')
   }else{
-    player.stop()
-    await playMusic(guildID, channelID, url, '')
+    await player.stop().then((stopped) =>{
+        if(stopped === true){
+            playMusic(guildID, channelID, url, '')
+        }   
+    })
   }
   res.send(`playing`)
 })
@@ -55,8 +58,11 @@ app.get('/search', async function(req, res) {
   if(player.state.status != 'playing'){
     await playMusic(guildID,channelID,'', searched)
   }else{
-    player.stop()
-    await playMusic(guildID,channelID,'', searched)
+    await player.stop().then((stopped) =>{
+        if(stopped === true){
+            playMusic(guildID,channelID,'', searched)
+        }
+    })
   }
   res.send(`search & play`)
 })
