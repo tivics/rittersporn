@@ -23,6 +23,7 @@ var news_handler
 var twitter_handler
 var app = express()
 var cors = require('cors')
+var next = false
 
 //-------REST-API-------
 app.use(cors())
@@ -39,11 +40,9 @@ app.get('/play', async function(req, res) {
   if(player.state.status != 'playing'){
     await playMusic(guildID, channelID, url, '')
   }else{
-    await player.stop().then((stopped) =>{
-        if(stopped === true){
-            playMusic(guildID, channelID, url, '')
-        }   
-    })
+    next = true
+    player.stop()
+    await playMusic(guildID, channelID, url, '')
   }
   res.send(`playing`)
 })
@@ -58,11 +57,9 @@ app.get('/search', async function(req, res) {
   if(player.state.status != 'playing'){
     await playMusic(guildID,channelID,'', searched)
   }else{
-    await player.stop().then((stopped) =>{
-        if(stopped === true){
-            playMusic(guildID,channelID,'', searched)
-        }
-    })
+    next = true
+    player.stop()
+    await playMusic(guildID,channelID,'', searched)
   }
   res.send(`search & play`)
 })
@@ -173,7 +170,8 @@ async function searchMusic(searchTerm){
     
     player.play(resource)
     connection.subscribe(player)
-  
+    next = false
+
     //pause news/twitter handler while playing audio stream
     clearInterval(news_handler)
     clearInterval(twitter_handler)
@@ -191,10 +189,12 @@ async function searchMusic(searchTerm){
     })
     //leave channel once done and reset news/twitter handler interval
     player.on(AudioPlayerStatus.Idle, () => {
-        setTimeout(() => connection.disconnect(), 10000)
-        if(news_handler === 0 && twitter_handler === 0){
-            news_handler = setInterval(function(){news.read_rss(client)}, 60000)
-            twitter_handler = setInterval(function(){news.read_twitter(client)}, 900000)
+        if(next != true){
+            setTimeout(() => connection.disconnect(), 10000)
+            if(news_handler === 0 && twitter_handler === 0){
+                news_handler = setInterval(function(){news.read_rss(client)}, 60000)
+                twitter_handler = setInterval(function(){news.read_twitter(client)}, 900000)
+            }
         }
     })
   }
