@@ -148,10 +148,10 @@ client.on('messageCreate', async (message) => {
         var url = message.content.slice(6)  
 
         if(player.state.status != 'playing'){     
-            await playMusic(message.guild.id, message.member.voice.channel.id, url, '')
-            //delete message to keep channel clean 
-            setTimeout(() => message.delete(), 10000)
+            await playMusic(message.guild.id, message.member.voice.channel.id, url, '')    
         }
+        //delete message to keep channel clean 
+        setTimeout(() => message.delete(), 10000)
     }
     else if(message.content === '!stop') {
         player.stop()
