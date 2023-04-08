@@ -35,7 +35,8 @@ app.get('/play', async function(req, res) {
   let guildID = req.query.guildID
   let channelID = req.query.channelID
   let url = req.query.url
-  if(player.state.status != Playing){
+  console.log(player.state.status)
+  if(player.state.status != 'Playing'){
     await playMusic(guildID, channelID, url, '')
   }
   res.send(`playing`)
@@ -48,7 +49,8 @@ app.get('/search', async function(req, res) {
   let searchTerm = req.query.searchTerm
 
   const searched = await searchMusic(searchTerm)
-  if(player.state.status != Playing){
+  console.log(player.state.status)
+  if(player.state.status != 'Playing'){
     await playMusic(guildID,channelID,'', searched)
   }
   res.send(`search & play`)
@@ -145,7 +147,8 @@ client.on('messageCreate', async (message) => {
     }
     else if(message.content.slice(0, 6) === '!play ') {    
         var url = message.content.slice(6)  
-        if(player.state.status != Playing){     
+        console.log(player.state.status)  
+        if(player.state.status != 'Playing'){     
             await playMusic(message.guild.id, message.member.voice.channel.id, url, '')
             //delete message to keep channel clean 
             setTimeout(() => message.delete(), 10000)
