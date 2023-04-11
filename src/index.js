@@ -137,7 +137,6 @@ client.on('messageCreate', async (message) => {
                 count =  messages.size
                 messages.forEach(message =>{
                     message.delete()
-                    count = count-1
             })
         })}while(count>=1);
     }
