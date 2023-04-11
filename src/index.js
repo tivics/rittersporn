@@ -128,8 +128,13 @@ client.on('messageCreate', async (message) => {
         setTimeout(() => message.delete(), 10000)    
     }
     else if(message.content === '!delete') {
-        await message.channel.messages.fetch({limit: 100}).then(messages =>{
+        /*await message.channel.messages.fetch({limit: 100}).then(messages =>{
             message.channel.bulkDelete(messages, true)
+        })*/
+        await message.channel.messages.fetch({limit: 100}).then(messages => {
+            messages.forEach(message =>{
+                message.delete()
+            })
         })
     }
 })
