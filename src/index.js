@@ -138,6 +138,7 @@ client.on('messageCreate', async (message) => {
                 console.log(count)
                 messages.forEach(message =>{
                     message.delete()
+                })
             })
         }
     }
