@@ -129,7 +129,7 @@ client.on('messageCreate', async (message) => {
     }
     else if(message.content === '!delete') {
         await message.channel.messages.fetch({limit: 100}).then(messages =>{
-            message.channel.bulkDelete(messages)
+            message.channel.bulkDelete(messages, true)
         })
     }
 })
