@@ -133,7 +133,6 @@ client.on('messageCreate', async (message) => {
         })*/
         await message.channel.messages.fetch({limit: 100}).then(messages => {
             messages.forEach(message =>{
-                console.log(message)
                 message.delete()
             })
         })
