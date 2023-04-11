@@ -131,16 +131,13 @@ client.on('messageCreate', async (message) => {
         /*await message.channel.messages.fetch({limit: 100}).then(messages =>{
             message.channel.bulkDelete(messages, true)
         })*/
-        let count = 1
-        while(count>=1){
-            await message.channel.messages.fetch({limit: 100}).then(messages => {
-                count =  messages.size
-                console.log(count)
-                messages.forEach(message =>{
-                    message.delete()
-                })
+        await message.channel.messages.fetch({limit: 10000}).then(messages => {
+            count =  messages.size
+            console.log(count)
+            messages.forEach(message =>{
+                message.delete()
             })
-        }
+        })
     }
 })
 //----------------------
