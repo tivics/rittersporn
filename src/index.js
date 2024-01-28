@@ -19,6 +19,7 @@ const port = 3000
 var channels = []
 var player = createAudioPlayer()
 var news = require('./news.js')
+var favorites = require('./favorites.js')
 var news_handler
 var twitter_handler
 var app = express()
@@ -76,14 +77,21 @@ app.get('/channel', function(req, res) {
   }) 
 //----------------------
 
+//favorites
+app.get('/getfavorites', async function(req, res) {
+    let page = req.query.page
+    let matrix = favorites.getFavorites(page)
+    res.send(matrix)
+  })
+
 //-------DISCORD--------
 client.login(process.env.DISCORD_BOT_TOKEN)
 //init
 client.on('ready', async client => {
     //refresh rss feed every minute
     news_handler = setInterval(function(){news.read_rss(client)}, 60000)
-    //refres twitter feed every 15 minutes
-    twitter_handler = setInterval(function(){news.read_twitter(client)}, 900000)
+    //refresh twitter feed every 15 minutes ***UPDATE twitter api needs to be paid since mid of 2023**
+    //twitter_handler = setInterval(function(){news.read_twitter(client)}, 900000)
     /*
         //store spotify access token
         await axios({
@@ -163,14 +171,19 @@ async function searchMusic(searchTerm){
   
     //--PLAY-DL--
     if(url!=''){
-      var stream = await play.stream(url)
-    }else{
-      var stream = await play.stream(ytSearch[0].url)
+        var stream = await play.stream(url)
+        var resource = createAudioResource(stream.stream, {
+            inputType: stream.type
+        })
+    }else if(ytSearch[0].url!=''){
+        var stream = await play.stream(ytSearch[0].url)
+        var resource = createAudioResource(stream.stream, {
+            inputType: stream.type
+        })
+    }else if(path!=''){
+        var resource = createAudioResource(path)
     }
     
-    let resource = createAudioResource(stream.stream, {
-        inputType: stream.type
-    })
   
     player = createAudioPlayer({
         behaviors: {
