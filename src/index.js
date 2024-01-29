@@ -203,26 +203,26 @@ async function searchMusic(searchTerm){
 
     //pause news/twitter handler while playing audio stream
     clearInterval(news_handler)
-    clearInterval(twitter_handler)
+    //clearInterval(twitter_handler)
     news_handler = 0
-    twitter_handler = 0
+    //twitter_handler = 0
     
     //error handler, post message, leave channel and reset news/twitter handler interval
     player.on('error', error => {
         console.error(`Error: ${error.message}`)
         setTimeout(() => connection.disconnect(), 10000)
-        if(news_handler === 0 && twitter_handler === 0){
+        if(news_handler === 0){// && twitter_handler === 0){
             news_handler = setInterval(function(){news.read_rss(client)}, 60000)
-            twitter_handler = setInterval(function(){news.read_twitter(client)}, 900000)
+            //twitter_handler = setInterval(function(){news.read_twitter(client)}, 900000)
         }
     })
     //leave channel once done and reset news/twitter handler interval
     player.on(AudioPlayerStatus.Idle, () => {
         if(next != true){
             setTimeout(() => connection.disconnect(), 10000)
-            if(news_handler === 0 && twitter_handler === 0){
+            if(news_handler === 0){ //&& twitter_handler === 0){
                 news_handler = setInterval(function(){news.read_rss(client)}, 60000)
-                twitter_handler = setInterval(function(){news.read_twitter(client)}, 900000)
+                //twitter_handler = setInterval(function(){news.read_twitter(client)}, 900000)
             }
         }
     })
