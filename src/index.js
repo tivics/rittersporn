@@ -65,6 +65,12 @@ app.get('/search', async function(req, res) {
   res.send(`search & play`)
 })
 
+//stop playback
+app.get('/stop', async function(req, res){
+    player.stop()
+    res.send(`stopped`)
+})
+
 //submit discord channels
 app.get('/channel', function(req, res) {
     channels = []
