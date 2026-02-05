@@ -65,9 +65,11 @@
 [![Product Name Screen Shot][product-screenshot]](https://github.com/tivics/rittersporn/)
 
 Rittersporn is social media Discord Bot that currently offers the following features:
-* play music from a Youtube video/ audio source
+* ~~play music from a Youtube video/ audio source~~ no longer possible due to changed youtube guidelines regarding audio usage
 * post a RSS feed from a selected source
-* post tweets from a selected user
+* post tweets from a selected user !!HINT still possible but API must be payed since twitter was bought
+* team builder, distribute the people currently in your channel evenly across the other channels
+* post the currently active ARC Raiders events including timeframe and map into a given text channel
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -115,15 +117,15 @@ First install latest version of NPM
    npm install discord.js
    npm i @discordjs/voice
    npm i nodemon -g
-   npm install ytdl-core@latest
-   npm i ffmpeg
-   npm i opusscript 
-   npm i libsodium-wrappers
-   npm i libsodium
    npm install --save rss-parser
    npm i sqlite3
    npm i twitter-api-v2
    ```
+   ~~npm install ytdl-core@latest~~
+  ~~npm i ffmpeg~~
+  ~~npm i opusscript~~
+  ~~npm i libsodium-wrappers~~
+  ~~npm i libsodium~~
 9.  Download [SQLite Precompiled Binaries for Windows](https://www.sqlite.org/download.html) and unzip it to your chosen destination
 10. Go to Control Panel > System > Advanced System Settings > Environment Variables · Double click the "Path" item from User variables and add the path to SQLite e.g. C:\Program Files\SQLite
 11. SQLite Database Setup
@@ -170,8 +172,9 @@ Create Twitter Table:
 
 Tell Rittersporn what to do by typing commands into a text channel of your choice.
 
-* join a voice channel and type in ``` !play YOUTUBE_URL``` to start playing music in the voice channel you are currently in
-* type in ``` !stop ``` to stop the playback
+* ~~join a voice channel and type in ``` !play YOUTUBE_URL``` to start playing music in the voice channel you are currently in~~
+* ~~type in ``` !stop ``` to stop the playback~~
+* type in ```!split x``` to split your current lobby into several teams with x members
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -180,7 +183,7 @@ Tell Rittersporn what to do by typing commands into a text channel of your choic
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ 2022 ] Spotify integration
+- ...
 
 See the [open issues](https://github.com/tivics/rittersporn/issues) for a full list of proposed features (and known issues).
 
