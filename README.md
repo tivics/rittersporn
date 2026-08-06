@@ -53,7 +53,6 @@ Rittersporn is a Discord bot that combines social updates with voice-control fea
   - Commands: !join, !play, !stop
 - RSS feed posting to a configured Discord channel
 - Twitter/X post forwarding to a configured Discord channel
-- Team splitting with !split x
 - REST endpoints for playback control:
   - GET /play
   - GET /search
@@ -146,7 +145,6 @@ Use the bot in a Discord text channel by sending commands such as:
 - `!join` - join the current voice channel
 - `!play <url-or-search-term>` - start playback from a URL or a search query
 - `!stop` - stop the current track
-- `!split x` - split the current voice channel members into teams of size `x`
 - `!delete` - remove recent messages from the channel
 
 The bot also exposes a small REST API for external integrations:
