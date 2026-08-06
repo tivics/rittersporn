@@ -7,224 +7,174 @@
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
-
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
   <a href="https://github.com/tivics/rittersporn">
-    <img src="images/jaskier.png" alt="Logo" width="219" height="138">
+    <img src="images/jaskier.png" alt="Rittersporn logo" width="219" height="138">
   </a>
 
-<h3 align="center">Rittersporn</h3>
+  <h3 align="center">Rittersporn</h3>
 
   <p align="center">
-    Discord Bot and friend of Geralt of Rivia 
+    A Discord bot for music playback, community updates, and server-side helpers.
     <br />
-    <a href="https://github.com/tivics/rittersporn"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/tivics/rittersporn"><strong>Explore the project »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/tivics/rittersporn/issues">Report Bug</a>
+    <a href="https://github.com/tivics/rittersporn/issues">Report a bug</a>
     ·
-    <a href="https://github.com/tivics/rittersporn/issues">Request Feature</a>
+    <a href="https://github.com/tivics/rittersporn/issues">Request a feature</a>
   </p>
 </div>
-
-
 
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
   <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
+    <li><a href="#about-the-project">About The Project</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#getting-started">Getting Started</a></li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
-
-
-<!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://github.com/tivics/rittersporn/)
+Rittersporn is a Discord bot that combines social updates with voice-control features. The current implementation supports music playback, RSS/Twitter posting, simple team splitting, and a lightweight REST API for controlling playback from other tools.
 
-Rittersporn is social media Discord Bot that currently offers the following features:
-* ~~play music from a Youtube video/ audio source~~ no longer possible due to changed youtube guidelines regarding audio usage
-* post a RSS feed from a selected source
-* post tweets from a selected user !!HINT still possible but API must be payed since twitter was bought
-* team builder, distribute the people currently in your channel evenly across the other channels
-* post the currently active ARC Raiders events including timeframe and map into a given text channel
+## Features
 
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
+- Music playback in a Discord voice channel via yt-dlp
+  - Supports direct URLs and search queries
+  - Commands: !join, !play, !stop
+- RSS feed posting to a configured Discord channel
+- Twitter/X post forwarding to a configured Discord channel
+- Team splitting with !split x
+- ARC Raiders event notifications (when configured)
+- REST endpoints for playback control:
+  - GET /play
+  - GET /search
+  - GET /channel
 
 ### Built With
 
-* [Node.js](https://nodejs.org)
-* [Discord.js](https://discord.js.org/#/)
+- [Node.js](https://nodejs.org)
+- [Discord.js](https://discord.js.org/#/)
+- [@discordjs/voice](https://discordjs.guide/voice/)
+- [Express](https://expressjs.com/)
+- [sqlite3](https://www.sqlite.org/)
+- [rss-parser](https://github.com/rb2k/rss-parser)
+- [twitter-api-v2](https://github.com/plhery/node-twitter-api-v2)
+- [yt-dlp](https://github.com/yt-dlp/yt-dlp) via the local binary
 
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- GETTING STARTED -->
 ## Getting Started
-
-To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-First install latest version of NPM
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
- 
+- Node.js 18+ and npm
+- A Discord bot token
+- A Twitter/X bearer token (if you want tweet forwarding)
+- SQLite installed locally
+- yt-dlp available in your PATH or configured via YTDLP_PATH
+
 ### Installation
 
-1. Register on [Discord Developer Portal](https://discord.com/developers/applications) and create a free Discord Application 
-2. Create a new Bot and provide Admin rights
-3. Create a token and save it e.g. in notepad++
-4. Register on [Twitter Developer Portal](https://developer.twitter.com/en/portal/) and create a new application
-5. Create a bearer token and save it e.g. in notepad++
-6. Clone the repo
+1. Clone the repository
    ```sh
-   git clone git@github.com:tivics/rittersporn.git
+   git clone https://github.com/tivics/rittersporn.git
+   cd rittersporn
    ```
-7. Create a `.env` file in the project folder and enter
-   ```sh 
-   npm install dotenv --save-dev
-   ```
-8. Install NPM packages
+2. Install dependencies
    ```sh
-   npm install discord.js
-   npm i @discordjs/voice
-   npm i nodemon -g
-   npm install --save rss-parser
-   npm i sqlite3
-   npm i twitter-api-v2
+   npm install
    ```
-   ~~npm install ytdl-core@latest~~
-  ~~npm i ffmpeg~~
-  ~~npm i opusscript~~
-  ~~npm i libsodium-wrappers~~
-  ~~npm i libsodium~~
-9.  Download [SQLite Precompiled Binaries for Windows](https://www.sqlite.org/download.html) and unzip it to your chosen destination
-10. Go to Control Panel > System > Advanced System Settings > Environment Variables · Double click the "Path" item from User variables and add the path to SQLite e.g. C:\Program Files\SQLite
-11. SQLite Database Setup
-Open Windows command line and navigate to your project path
-
-Create Database:
-```sh
-sqlite3 yourdatabasename.db
-```
-Create RSS Table:
-```sh
-    CREATE TABLE NEWS(
-      ID INT PRIMARY  KEY NOT NULL,
-      PUB_DATE  TEXT  NOT NULL,
-      TITLE TEXT  NOT NULL,
-      PROVIDER  TEXT  NOT NULL
-    );
-```
-Create Twitter Table:
-```sh
-    CREATE TABLE TWEETS(
-      ID INT PRIMARY  KEY NOT NULL,
-      TWEET_ID  TEXT  NOT NULL,
-      USER_ID TEXT  NOT NULL
-    );
-```
-12. `.env` Setup:
-   ```js
-   "DISCORD_BOT_TOKEN=YOUR TOKEN THAT YOU CREATED IN STEP 3"
-   "TWITTER_BEARER_TOKEN=YOUR TOKEN THAT YOU CREATED IN STEP 5"
-   "RSS_FEED=URL OF RSS FEED YOU WANT TO FOLLOW"
-   "CHANNEL_RSS=CHANNEL IN WHICH RSS NEWS SHOULD BE POSTED"
-   "PROVIDER_RSS=YOUR RSS PROVIDER E.G. GAMESTAR, REQUIRED FOR DB"
-   "TWITTER_USER=TWITTER USER YOU WANT TO FOLLOW"
-   "CHANNEL_TWITTER=CHANNEL IN WHICH TWEETS SHOULD BE POSTED"
-   "DATABASE_PATH=SQLITE DB PATH"
+3. Create a `.env` file in the project root with the following values:
+   ```env
+   DISCORD_BOT_TOKEN=your_discord_bot_token
+   TWITTER_BEARER_TOKEN=your_twitter_bearer_token
+   RSS_FEED=https://example.com/feed.xml
+   CHANNEL_RSS=your_rss_channel_id
+   PROVIDER_RSS=GAMESTAR
+   TWITTER_USER=your_twitter_username
+   CHANNEL_TWITTER=your_twitter_channel_id
+   DATABASE_PATH=./data/rittersporn.db
+   FAVORITES_PATH=./data/favorites.db
+   YTDLP_PATH=yt-dlp
    ```
-<p align="right">(<a href="#top">back to top</a>)</p>
+4. Create the SQLite database and tables
+   ```sh
+   sqlite3 ./data/rittersporn.db
+   ```
 
+   ```sql
+   CREATE TABLE IF NOT EXISTS NEWS (
+     ID INTEGER PRIMARY KEY NOT NULL,
+     PUB_DATE TEXT NOT NULL,
+     TITLE TEXT NOT NULL,
+     PROVIDER TEXT NOT NULL
+   );
 
+   CREATE TABLE IF NOT EXISTS TWEETS (
+     ID INTEGER PRIMARY KEY NOT NULL,
+     TWEET_ID TEXT NOT NULL,
+     USER_ID TEXT NOT NULL
+   );
+   ```
 
-<!-- Usage -->
+   If you want to use the favorites store as well, create:
+
+   ```sql
+   CREATE TABLE IF NOT EXISTS FAVORITES (
+     ID INTEGER PRIMARY KEY NOT NULL,
+     NAME TEXT NOT NULL,
+     URL TEXT NOT NULL,
+     COUNT INTEGER NOT NULL
+   );
+   ```
+5. Start the bot
+   ```sh
+   npm start
+   ```
+
 ## Usage
 
-Tell Rittersporn what to do by typing commands into a text channel of your choice.
+Use the bot in a Discord text channel by sending commands such as:
 
-* ~~join a voice channel and type in ``` !play YOUTUBE_URL``` to start playing music in the voice channel you are currently in~~
-* ~~type in ``` !stop ``` to stop the playback~~
-* type in ```!split x``` to split your current lobby into several teams with x members
+- `!join` - join the current voice channel
+- `!play <url-or-search-term>` - start playback from a URL or a search query
+- `!stop` - stop the current track
+- `!split x` - split the current voice channel members into teams of size `x`
+- `!delete` - remove recent messages from the channel
 
-<p align="right">(<a href="#top">back to top</a>)</p>
+The bot also exposes a small REST API for external integrations:
 
+- `GET /play?guildID=...&channelID=...&url=...`
+- `GET /search?guildID=...&channelID=...&searchTerm=...`
+- `GET /channel`
 
-
-<!-- ROADMAP -->
 ## Roadmap
 
-- ...
+- Improve the favorites workflow and web-facing controls
+- Add more event integrations and configuration options
+- Refine the bot’s command handling and documentation
 
-See the [open issues](https://github.com/tivics/rittersporn/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/tivics/rittersporn/issues) for the latest ideas and known issues.
 
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- LICENSE -->
 ## License
-<!-- Distributed under the MIT License. See `LICENSE.txt` for more information. -->
 
 TBD
 
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- CONTACT -->
 ## Contact
 
 <a href="mailto:christian.schaefer.07@gmail.com">Christian Schäfer</a> - [@tivics7](https://twitter.com/tivics7)
 
-Project Link: [rittersporn](https://github.com/tivics/rittersporn)
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-
-* []()
-* []()
-* []()
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
+Project link: [rittersporn](https://github.com/tivics/rittersporn)
 
 <!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/tivics/rittersporn.svg?style=for-the-badge
 [contributors-url]: https://github.com/tivics/rittersporn/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/tivics/rittersporn.svg?style=for-the-badge
