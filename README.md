@@ -54,7 +54,6 @@ Rittersporn is a Discord bot that combines social updates with voice-control fea
 - RSS feed posting to a configured Discord channel
 - Twitter/X post forwarding to a configured Discord channel
 - Team splitting with !split x
-- ARC Raiders event notifications (when configured)
 - REST endpoints for playback control:
   - GET /play
   - GET /search
