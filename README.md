@@ -155,9 +155,8 @@ The bot also exposes a small REST API for external integrations:
 
 ## Roadmap
 
-- Improve the favorites workflow and web-facing controls
-- Add more event integrations and configuration options
-- Refine the bot’s command handling and documentation
+- Add support for adding songs to a playlist or queue so that multiple tracks can be played one after another
+- Allow a new play request while a track is already playing to queue the song instead of replacing the current playback
 
 See the [open issues](https://github.com/tivics/rittersporn/issues) for the latest ideas and known issues.
 
