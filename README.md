@@ -44,7 +44,7 @@
 
 ## About The Project
 
-Rittersporn is a Discord bot that combines social updates with voice-control features. The current implementation supports music playback, RSS/Twitter posting, simple team splitting, and a lightweight REST API for controlling playback from other tools.
+Rittersporn is a Discord bot that combines social updates with voice-control features. The current implementation supports YouTube music playback, RSS/Twitter posting, and a lightweight REST API for controlling playback from other tools.
 
 ## Features
 
